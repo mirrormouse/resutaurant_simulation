@@ -49,7 +49,7 @@ class Clerk: #ホール担当
                 print(f"{round(time.time()-start,3)} From 店員{self.name}, To {customer}：{message}")
             
 
-class Chief: #料理人
+class Chef: #料理人
     def __init__(self, menu, turntime, checktime, ordertime, gettime, name):
         self.menu = menu
         self.turntime = turntime
@@ -114,6 +114,8 @@ class Source: #材料の調達元
                 else:
                     r.rpush('ingredient_order', ingredient)
                     
+
+
 if __name__ == '__main__':
     menu = Menu([
         Item('カレー', 900, {'野菜': 1, '米': 2}, 4),
@@ -136,10 +138,10 @@ if __name__ == '__main__':
         Source('卵', 50, 4, 0.02),
         Source('豚肉', 50, 2, 0.01),
     ]
-    chiefs = [
-        Chief(menu, 0.01, 0.05, 0.05, 0.01, '佐藤'),
-        Chief(menu, 0.02, 0.04, 0.12, 0.02, '鈴木'),
-        Chief(menu, 0.03, 0.05, 0.1, 0.01, '高橋'),
+    chefs = [
+        Chef(menu, 0.01, 0.05, 0.05, 0.01, '佐藤'),
+        Chef(menu, 0.02, 0.04, 0.12, 0.02, '鈴木'),
+        Chef(menu, 0.03, 0.05, 0.1, 0.01, '高橋'),
     ]
     clerks = [
         Clerk(0.01, 0.3, 0.3, '渡辺'),
@@ -152,8 +154,8 @@ if __name__ == '__main__':
     import multiprocessing
     for source in sources:
         multiprocessing.Process(target=source.run, args=(start_time,)).start()
-    for chief in chiefs:
-        multiprocessing.Process(target=chief.run, args=(start_time,)).start()
+    for chef in chefs:
+        multiprocessing.Process(target=chef.run, args=(start_time,)).start()
     for clerk in clerks:
         multiprocessing.Process(target=clerk.run, args=(start_time,)).start()
     # お客さんを作成
